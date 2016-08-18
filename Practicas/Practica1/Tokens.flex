@@ -1,17 +1,29 @@
 /********************************************************************************
-**                                                                                                **
 *********************************************************************************/
 import java.util.Stack;
 import java.util.Arrays;
 %%
 %public
-%class Flexer
+%class Tokens
 %standalone
 %line
 
-NNDIGIT		=       [1-9]
-DIGIT		=       [0-9]       
-CERO             	=        0
+/* Identificadores */
+Identificador = ['@'][:jletter:][:jletterdigit:]* | [:jletter:][:jletterdigit:]*
+
+/* Enteros */
+Enteros 		= [0-9]*
+
+/* numeros reales  */        
+Real  = ({TipoA}|{TipoB}|{TipoC})
+
+TipoA    = [0-9]+ \. [0-9]* 
+TipoB    = \. [0-9]+ 
+TipoC    = [0-9]+ 
+
 %%
-{CERO} | {NNDIGIT}{DIGIT}+		      	{ System.out.println("INTEGER(" + yytext() +")");}		
+
+{Identificador}		    	{ System.out.println("IDENTIFICADOR(" + yytext() + ")");}
+{Enteros}					{System.out.println("INTEGER(" + yytext() + ")");}	
+{Real}						{System.out.println("REAL(" + yytext() + ")");}	
 
